@@ -1,5 +1,7 @@
 import cc from 'classcat';
 import { createClient } from '@supabase/supabase-js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle,faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const supabaseUrl = 'https://wcsarblmzxwiecmbnibe.supabase.co';
 const supabaseKey =

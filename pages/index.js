@@ -46,7 +46,7 @@ export default function Home() {
         </h1>
         <p className='text-center text-2xl py-2'>Qin しまぶー × じゃけぇ</p>
       </div>
-      <main className='container mx-auto flex flex-col'>
+      <main className='container mx-auto px-8 flex flex-col'>
         <div className='mt-8 flex flex-row'>
           <input
             type='text'
@@ -88,9 +88,6 @@ export default function Home() {
             編集
           </label>
         </div>
-        <div className='text-xs text-right'>
-          パネルクリック⇒強調表示、ダブルクリック⇒トーク状況切替
-        </div>
         <div className='text-2xl text-bold mt-4'>テーマ</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
@@ -109,6 +106,9 @@ export default function Home() {
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
             panelData.map((item) => item.comp && <Panel data={item} />)}
+        </div>
+        <div className='mt-8 text-xs text-right'>
+          パネルクリック⇒強調表示、ダブルクリック⇒トーク状況切替
         </div>
       </main>
     </div>
