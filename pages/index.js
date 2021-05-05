@@ -41,12 +41,17 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <div className='w-full bg-green-50'>
-        <h1 className='text-center text-6xl py-4' style={{ color: '#0E6163' }}>
+        <h1
+          className='text-center text-2xl sm:text-6xl py-2 sm:py-4'
+          style={{ color: '#0E6163' }}
+        >
           パネルディスカッション
         </h1>
-        <p className='text-center text-2xl py-2'>Qin しまぶー × じゃけぇ</p>
+        <p className='text-center text-lg sm:text-2xl py-1 sm:py-2'>
+          Qin しまぶー × じゃけぇ
+        </p>
       </div>
-      <main className='container max-w-4xl mx-auto px-8 flex flex-col'>
+      <main className='container max-w-4xl px-8 sm:mx-auto flex flex-col'>
         <div className='mt-8 flex flex-row'>
           <input
             type='text'
