@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -36,32 +35,33 @@ export default function Home() {
     }, 5000);
   }, [panelData]);
   return (
-    <div className='container'>
+    <div className='w-full'>
       <Head>
         <title>パネルディスカッション</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className='h-full w-full flex flex-col items-center'>
-        <div className='w-full bg-green-50'>
-          <h1 className={styles.title} style={{ color: '#0E6163' }}>
-            パネルディスカッション
-          </h1>
-          <p className={styles.description}>Qin しまぶー × じゃけぇ</p>
-        </div>
-
+      <div className='w-full bg-green-50'>
+        <h1 className='text-center text-6xl py-4' style={{ color: '#0E6163' }}>
+          パネルディスカッション
+        </h1>
+        <p className='text-center text-2xl py-2'>Qin しまぶー × じゃけぇ</p>
+      </div>
+      <main className='container flex flex-col items-center'>
         <div className='mt-8 flex flex-row'>
           <input
             type='text'
-            className='border rounded-lg w-72 p-1'
+            className='border rounded-lg w-96 p-1'
             value={newPanelName}
+            tabindex={0}
             onChange={(e) => {
               if (newPanelName !== e.target.value) {
                 setNewPanelName(e.target.value);
               }
             }}
           ></input>
-          <div
+          <button
             className='mx-2 px-4 py-1 border border-gray-400 bg-gray-200 rounded-lg'
+            tabindex={1}
             onClick={(e) => {
               if (newPanelName) {
                 supabase
@@ -74,7 +74,7 @@ export default function Home() {
             }}
           >
             追加
-          </div>
+          </button>
           <label for='checkbox'>
             <input
               type='checkbox'
@@ -88,8 +88,8 @@ export default function Home() {
             編集
           </label>
         </div>
-        <div className='text-lg text-bold mt-4'>未完了</div>
-        <div className={styles.grid}>
+        <div className='text-2xl text-bold mt-4'>未完了</div>
+        <div className='w-full flex flex-row flex-wrap items-center text-center'>
           {panelData.length !== 0 &&
             panelData.map(
               (item) =>
@@ -102,8 +102,8 @@ export default function Home() {
                 )
             )}
         </div>
-        <div className='text-lg text-bold mt-4'>完了</div>
-        <div className={styles.grid}>
+        <div className='text-2xl text-bold mt-4'>完了</div>
+        <div className='w-full flex flex-row flex-wrap items-center text-center'>
           {panelData.length !== 0 &&
             panelData.map(
               (item) => item.comp && <Panel data={item} edit={editMode} />

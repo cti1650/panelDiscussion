@@ -10,7 +10,7 @@ export function Panel(props) {
   const { edit,data,onChange } = props;
   return (
     <>
-      <button key={data.id} className={cc(['mx-1 my-1 px-2 py-4 focus:text-xl border border-gray-200 rounded-xl focus:border-4 focus:border-double focus:border-red-500 focus:outline-none',{
+      <button key={data.id} className={cc(['mx-1 my-1 px-2 py-4 text-lg border border-gray-200 rounded-xl border-4 focus:border-red-500 focus:bg-red-100 focus:outline-none',{
         'bg-gray-200' : edit === true,
       }])} onDoubleClick={(e)=>{
         supabase
