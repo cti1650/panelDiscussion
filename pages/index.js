@@ -108,9 +108,7 @@ export default function Home() {
         <div className='text-2xl text-bold mt-4'>トーク済み</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
-            panelData.map(
-              (item) => item.comp && <Panel data={item} edit={editMode} />
-            )}
+            panelData.map((item) => item.comp && <Panel data={item} />)}
         </div>
       </main>
     </div>

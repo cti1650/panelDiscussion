@@ -12,6 +12,7 @@ export function Panel(props) {
     <>
       <button key={data.id} className={cc(['mx-1 my-1 px-2 py-4 text-lg border border-gray-200 rounded-xl border-4 focus:border-red-500 focus:bg-red-100 focus:outline-none',{
         'bg-gray-200' : edit === true,
+        'bg-gray-600 text-white' : data.comp === true,
       }])} onDoubleClick={(e)=>{
         supabase
         .from('panels')
@@ -24,6 +25,7 @@ export function Panel(props) {
         {data.name}
         {edit === true && (<div className='text-center w-full text-red-500 border-none rounded-full'>
           <button className='text-xs' onClick={(e) => {
+              if(window.confirm(data.name + 'の投稿を削除してよろしいですか？')){
                 supabase
                   .from('panels')
                   .delete()
@@ -31,6 +33,7 @@ export function Panel(props) {
                     console.log('delete id:' + data.id);
                     onChange && onChange(e);
                   });
+                }
             }}>× 削除</button></div>)}
       </button>
     </>
