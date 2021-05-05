@@ -16,8 +16,14 @@ export default function Home() {
   const [panelData, setPanelData] = useState([]);
   const [newPanelName, setNewPanelName] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const handleChildonChange = (e) => {
+    setPanelData([...panelData]);
+  };
   let t;
   useEffect(() => {
+    if (t) {
+      clearTimeout(t);
+    }
     t = setTimeout(function () {
       supabase
         .from('panels')
@@ -30,18 +36,23 @@ export default function Home() {
     }, 5000);
   }, [panelData]);
   return (
-    <div className={styles.container}>
+    <div className='container'>
       <Head>
-        <title>Create Next App</title>
+        <title>パネルディスカッション</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <main className={styles.main}>
-        <h1 className={styles.title}>全体会 2021 1Q 開発部</h1>
-        <p className={styles.description}>ひとりでパネルディスカッション</p>
-        <div className='flex flex-row'>
+      <main className='h-full w-full flex flex-col items-center'>
+        <div className='w-full bg-green-50'>
+          <h1 className={styles.title} style={{ color: '#0E6163' }}>
+            パネルディスカッション
+          </h1>
+          <p className={styles.description}>Qin しまぶー × じゃけぇ</p>
+        </div>
+
+        <div className='mt-8 flex flex-row'>
           <input
             type='text'
-            className='border rounded-lg w-72'
+            className='border rounded-lg w-72 p-1'
             value={newPanelName}
             onChange={(e) => {
               if (newPanelName !== e.target.value) {
@@ -50,7 +61,7 @@ export default function Home() {
             }}
           ></input>
           <div
-            className='mx-2 px-4 border border-gray-400 bg-gray-200 rounded-lg'
+            className='mx-2 px-4 py-1 border border-gray-400 bg-gray-200 rounded-lg'
             onClick={(e) => {
               if (newPanelName) {
                 supabase
@@ -64,31 +75,41 @@ export default function Home() {
           >
             追加
           </div>
-          <input
-            type='checkbox'
-            className='m-2'
-            value={editMode}
-            onChange={(e) => {
-              setEditMode(!e.target.checked);
-            }}
-          ></input>
+          <label for='checkbox'>
+            <input
+              type='checkbox'
+              className='m-2'
+              value={editMode}
+              id='checkbox'
+              onChange={(e) => {
+                setEditMode(e.target.checked);
+              }}
+            ></input>
+            編集
+          </label>
         </div>
+        <div className='text-lg text-bold mt-4'>未完了</div>
         <div className={styles.grid}>
           {panelData.length !== 0 &&
-            panelData.map((item) => <Panel data={item} edit={editMode} />)}
+            panelData.map(
+              (item) =>
+                !item.comp && (
+                  <Panel
+                    data={item}
+                    edit={editMode}
+                    onChange={handleChildonChange}
+                  />
+                )
+            )}
+        </div>
+        <div className='text-lg text-bold mt-4'>完了</div>
+        <div className={styles.grid}>
+          {panelData.length !== 0 &&
+            panelData.map(
+              (item) => item.comp && <Panel data={item} edit={editMode} />
+            )}
         </div>
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href='https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Powered by{' '}
-          <img src='/vercel.svg' alt='Vercel Logo' className={styles.logo} />
-        </a>
-      </footer>
     </div>
   );
 }
