@@ -46,7 +46,7 @@ export default function Home() {
         </h1>
         <p className='text-center text-2xl py-2'>Qin しまぶー × じゃけぇ</p>
       </div>
-      <main className='container mx-auto px-8 flex flex-col'>
+      <main className='container max-w-4xl mx-auto px-8 flex flex-col'>
         <div className='mt-8 flex flex-row'>
           <input
             type='text'
