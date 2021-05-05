@@ -8,12 +8,19 @@
     "start": "next start"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@supabase/supabase-js": "^1.11.9",
     "autoprefixer": "^10.2.5",
+    "classcat": "^5.0.3",
     "firebase": "^8.4.3",
+    "firebase-admin": "^9.7.0",
     "next": "10.2.0",
     "postcss": "^8.2.13",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "supabase": "^0.3.8",
     "tailwindcss": "^2.1.2"
   }
 }
