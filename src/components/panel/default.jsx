@@ -23,7 +23,7 @@ export function Panel(props) {
       }}>
         {data.name}
         {edit === true && (<div className='text-center w-full text-red-500 border-none rounded-full'>
-          <button className='w-9' onClick={(e) => {
+          <button className='text-xs' onClick={(e) => {
                 supabase
                   .from('panels')
                   .delete()
@@ -31,7 +31,7 @@ export function Panel(props) {
                     console.log('delete id:' + data.id);
                     onChange && onChange(e);
                   });
-            }}>×</button></div>)}
+            }}>× 削除</button></div>)}
       </button>
     </>
   );

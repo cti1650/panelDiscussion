@@ -46,11 +46,11 @@ export default function Home() {
         </h1>
         <p className='text-center text-2xl py-2'>Qin しまぶー × じゃけぇ</p>
       </div>
-      <main className='container flex flex-col items-center'>
+      <main className='container mx-auto flex flex-col'>
         <div className='mt-8 flex flex-row'>
           <input
             type='text'
-            className='border rounded-lg w-96 p-1'
+            className='border rounded-lg w-1/2 p-1'
             value={newPanelName}
             tabindex={0}
             onChange={(e) => {
@@ -88,8 +88,11 @@ export default function Home() {
             編集
           </label>
         </div>
-        <div className='text-2xl text-bold mt-4'>未完了</div>
-        <div className='w-full flex flex-row flex-wrap items-center text-center'>
+        <div className='text-xs text-right'>
+          パネルクリック⇒強調表示、ダブルクリック⇒トーク状況切替
+        </div>
+        <div className='text-2xl text-bold mt-4'>テーマ</div>
+        <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
             panelData.map(
               (item) =>
@@ -102,8 +105,8 @@ export default function Home() {
                 )
             )}
         </div>
-        <div className='text-2xl text-bold mt-4'>完了</div>
-        <div className='w-full flex flex-row flex-wrap items-center text-center'>
+        <div className='text-2xl text-bold mt-4'>トーク済み</div>
+        <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
             panelData.map(
               (item) => item.comp && <Panel data={item} edit={editMode} />
