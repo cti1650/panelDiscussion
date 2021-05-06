@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faNetworkWired, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Panel } from '../src/components/panel/default';
 
 import { createClient } from '@supabase/supabase-js';
@@ -15,24 +15,24 @@ export default function Home() {
   const [panelData, setPanelData] = useState([]);
   const [newPanelName, setNewPanelName] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [TimeKeeper,setTimeKeeper] = useState(null);
   const handleChildonChange = (e) => {
     setPanelData([...panelData]);
   };
   let t;
   useEffect(() => {
-    if (t) {
-      clearTimeout(t);
-    }
-    t = setTimeout(function () {
+    TimeKeeper && clearTimeout(TimeKeeper);
+    setTimeKeeper(setTimeout(function () {
       supabase
         .from('panels')
         .select('*')
         .then((doc) => {
           if (panelData !== doc.data) {
             setPanelData(doc.data);
+            console.log('update' + new Date().toString());
           }
         });
-    }, 5000);
+    }, 5000));
   }, [panelData]);
   return (
     <div className='w-full'>
@@ -53,20 +53,19 @@ export default function Home() {
       </div>
       <main className='container max-w-4xl px-8 sm:mx-auto flex flex-col'>
         <div className='mt-8 flex flex-row w-full'>
-          <input
-            type='text'
+          <textarea
             className='border rounded-lg w-full p-1'
             value={newPanelName}
-            tabindex={0}
+            tabindex={1}
             onChange={(e) => {
-              if (newPanelName !== e.target.value) {
-                setNewPanelName(e.target.value);
-              }
+              setNewPanelName(e.target.value);
             }}
-          ></input>
+            cols={50}
+            rows={2}
+          />
           <button
             className='mx-2 px-4 py-1 w-24 border border-gray-400 bg-gray-200 rounded-lg'
-            tabindex={1}
+            tabindex={2}
             onClick={(e) => {
               if (newPanelName) {
                 supabase
@@ -80,7 +79,7 @@ export default function Home() {
           >
             追加
           </button>
-          <label for='checkbox' className='w-24'>
+          <label for='checkbox' className='w-24 my-auto'>
             <input
               type='checkbox'
               className='m-2'

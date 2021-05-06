@@ -13,7 +13,7 @@ export function Panel(props) {
   return (
     <>
       <button key={data.id} className={cc(
-        ['relative mx-1 my-1 px-2 rounded-xl focus:outline-none',
+        ['relative mx-1 my-1 px-2 whitespace-pre-wrap rounded-xl shadow focus:outline-none',
           {
             'py-5 text-lg border-none bg-gray-600 text-white' : data.comp === true,
             'py-5 text-lg border border-gray-200 bg-gray-200' : data.talking === false && edit === true,
@@ -59,22 +59,22 @@ export function Panel(props) {
               'border-none focus:outline-none rounded-full'
               ]
             )}>
-            <button className='text-xs' onClick={(e) => {
+            <button className='text-xs focus:outline-none' onClick={(e) => {
               supabase
               .from('panels')
               .update({ talking: false })
               .match({ talking: true }).then(()=>{
                 console.log('reset talking panel');
+                if(!data.talking){
+                  supabase
+                    .from('panels')
+                    .update({ talking: true })
+                    .match({ id: data.id }).then(()=>{
+                      console.log('talking id:' + data.id);
+                      onChange && onChange(e);
+                    });
+                }
               });
-              if(!data.talking){
-                supabase
-                  .from('panels')
-                  .update({ talking: true })
-                  .match({ id: data.id }).then(()=>{
-                    console.log('talking id:' + data.id);
-                    onChange && onChange(e);
-                  });
-              }
               }}><FontAwesomeIcon icon={faFlag} size='xs' className='w-4 h-4' />
             </button>
           </div>
