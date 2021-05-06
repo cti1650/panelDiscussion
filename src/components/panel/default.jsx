@@ -1,7 +1,7 @@
 import cc from 'classcat';
 import { createClient } from '@supabase/supabase-js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle,faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle,faTimes,faEdit,faFlag,faPlus,faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const supabaseUrl = 'https://wcsarblmzxwiecmbnibe.supabase.co';
 const supabaseKey =
@@ -12,31 +12,73 @@ export function Panel(props) {
   const { edit,data,onChange } = props;
   return (
     <>
-      <button key={data.id} className={cc(['mx-1 my-1 px-2 py-4 text-lg border border-gray-200 rounded-xl border-4 focus:border-red-500 focus:bg-red-100 focus:outline-none',{
-        'bg-gray-200' : edit === true,
-        'bg-gray-600 text-white' : data.comp === true,
-      }])} onDoubleClick={(e)=>{
-        supabase
-        .from('panels')
-        .update({ comp: !data.comp })
-        .match({ id: data.id }).then(()=>{
-          console.log('update id:' + data.id);
-          onChange && onChange(e);
+      <button key={data.id} className={cc(
+        ['relative mx-1 my-1 px-2 rounded-xl focus:outline-none',
+          {
+            'py-5 text-lg border-none bg-gray-600 text-white' : data.comp === true,
+            'py-5 text-lg border border-gray-200 bg-gray-200' : data.talking === false && edit === true,
+            'py-5 text-lg border border-gray-200 bg-white' : data.talking === false && edit === false,
+            'py-9 text-xl w-full border border-red-500 bg-white' : data.talking === true,
+          }
+        ]
+        )} onDoubleClick={(e)=>{
+          supabase
+          .from('panels')
+          .update({ comp: !data.comp, talking:false })
+          .match({ id: data.id }).then(()=>{
+            console.log('update id:' + data.id);
+            onChange && onChange(e);
         });
       }}>
         {data.name}
-        {edit === true && (<div className='text-center w-full text-red-500 border-none rounded-full'>
-          <button className='text-xs' onClick={(e) => {
-              if(window.confirm(data.name + 'の投稿を削除してよろしいですか？')){
+        {edit === true && (
+          <div className='text-center w-full text-gray-400 border-none focus:outline-none rounded-full'>
+            <button className='text-xs' onClick={(e) => {
+                if(window.confirm(data.name + 'の投稿を削除してよろしいですか？')){
+                  supabase
+                    .from('panels')
+                    .delete()
+                    .match({ id: data.id }).then(()=>{
+                      console.log('delete id:' + data.id);
+                      onChange && onChange(e);
+                    });
+                  }
+              }}>
+                <FontAwesomeIcon icon={faTrash} size='xs' className='w-4 h-4' />
+            </button>
+          </div>
+        )}
+        {data.comp === false && (
+          <div className={cc(
+            [
+              'absolute top-0 right-3', 
+              {
+                'text-red-400':data.talking,
+                'text-gray-200':!data.talking,
+              }, 
+              'border-none focus:outline-none rounded-full'
+              ]
+            )}>
+            <button className='text-xs' onClick={(e) => {
+              supabase
+              .from('panels')
+              .update({ talking: false })
+              .match({ talking: true }).then(()=>{
+                console.log('reset talking panel');
+              });
+              if(!data.talking){
                 supabase
                   .from('panels')
-                  .delete()
+                  .update({ talking: true })
                   .match({ id: data.id }).then(()=>{
-                    console.log('delete id:' + data.id);
+                    console.log('talking id:' + data.id);
                     onChange && onChange(e);
                   });
-                }
-            }}>× 削除</button></div>)}
+              }
+              }}><FontAwesomeIcon icon={faFlag} size='xs' className='w-4 h-4' />
+            </button>
+          </div>
+        )}
       </button>
     </>
   );

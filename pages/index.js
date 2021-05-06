@@ -52,10 +52,10 @@ export default function Home() {
         </p>
       </div>
       <main className='container max-w-4xl px-8 sm:mx-auto flex flex-col'>
-        <div className='mt-8 flex flex-row'>
+        <div className='mt-8 flex flex-row w-full'>
           <input
             type='text'
-            className='border rounded-lg w-1/2 p-1'
+            className='border rounded-lg w-full p-1'
             value={newPanelName}
             tabindex={0}
             onChange={(e) => {
@@ -65,7 +65,7 @@ export default function Home() {
             }}
           ></input>
           <button
-            className='mx-2 px-4 py-1 border border-gray-400 bg-gray-200 rounded-lg'
+            className='mx-2 px-4 py-1 w-24 border border-gray-400 bg-gray-200 rounded-lg'
             tabindex={1}
             onClick={(e) => {
               if (newPanelName) {
@@ -80,7 +80,7 @@ export default function Home() {
           >
             追加
           </button>
-          <label for='checkbox'>
+          <label for='checkbox' className='w-24'>
             <input
               type='checkbox'
               className='m-2'
@@ -93,12 +93,28 @@ export default function Home() {
             編集
           </label>
         </div>
+        <div className='text-2xl text-bold mt-4'>トーク中</div>
+        <div className='w-full flex flex-row flex-wrap justify-items-center'>
+          {panelData.length !== 0 &&
+            panelData.map(
+              (item) =>
+                !item.comp &&
+                item.talking && (
+                  <Panel
+                    data={item}
+                    edit={editMode}
+                    onChange={handleChildonChange}
+                  />
+                )
+            )}
+        </div>
         <div className='text-2xl text-bold mt-4'>テーマ</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
             panelData.map(
               (item) =>
-                !item.comp && (
+                !item.comp &&
+                !item.talking && (
                   <Panel
                     data={item}
                     edit={editMode}
@@ -113,7 +129,7 @@ export default function Home() {
             panelData.map((item) => item.comp && <Panel data={item} />)}
         </div>
         <div className='mt-8 text-xs text-right'>
-          パネルクリック⇒強調表示、ダブルクリック⇒トーク状況切替
+          ダブルクリック⇒トーク状況切替
         </div>
       </main>
     </div>
