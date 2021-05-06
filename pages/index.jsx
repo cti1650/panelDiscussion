@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNetworkWired, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle,faTimes,faEdit,faFlag,faPlus,faTrash,faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Panel } from '../src/components/panel/default';
 
 import { createClient } from '@supabase/supabase-js';
@@ -32,7 +32,7 @@ export default function Home() {
             console.log('update' + new Date().toString());
           }
         });
-    }, 5000));
+    }, 4000));
   }, [panelData]);
   return (
     <div className='w-full'>
@@ -40,58 +40,30 @@ export default function Home() {
         <title>パネルディスカッション</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <div className='w-full bg-green-50'>
+      <div className='relative w-full bg-green-50'>
         <h1
-          className='text-center text-2xl sm:text-6xl py-2 sm:py-4'
+          className='text-center text-2xl font-bold md:text-6xl pt-2 md:py-4'
           style={{ color: '#0E6163' }}
         >
           パネルディスカッション
         </h1>
-        <p className='text-center text-lg sm:text-2xl py-1 sm:py-2'>
+        <p className='text-center text-lg md:text-2xl py-1 sm:py-2'>
           Qin しまぶー × じゃけぇ
         </p>
+        <label for='checkbox' className='absolute top-0 right-0 p-2 text-sm md:text-base w-12 md:w-20 my-auto'>
+          <input
+            type='checkbox'
+            className='m-2'
+            value={editMode}
+            id='checkbox'
+            onChange={(e) => {
+              setEditMode(e.target.checked);
+            }}
+          ></input>
+          編集
+        </label>
       </div>
       <main className='container max-w-4xl px-8 sm:mx-auto flex flex-col'>
-        <div className='mt-8 flex flex-row w-full'>
-          <textarea
-            className='border rounded-lg w-full p-1'
-            value={newPanelName}
-            tabindex={1}
-            onChange={(e) => {
-              setNewPanelName(e.target.value);
-            }}
-            cols={50}
-            rows={2}
-          />
-          <button
-            className='mx-2 px-4 py-1 w-24 border border-gray-400 bg-gray-200 rounded-lg'
-            tabindex={2}
-            onClick={(e) => {
-              if (newPanelName) {
-                supabase
-                  .from('panels')
-                  .insert([{ name: newPanelName }])
-                  .then(() => {
-                    setNewPanelName('');
-                  });
-              }
-            }}
-          >
-            追加
-          </button>
-          <label for='checkbox' className='w-24 my-auto'>
-            <input
-              type='checkbox'
-              className='m-2'
-              value={editMode}
-              id='checkbox'
-              onChange={(e) => {
-                setEditMode(e.target.checked);
-              }}
-            ></input>
-            編集
-          </label>
-        </div>
         <div className='text-2xl text-bold mt-4'>トーク中</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
@@ -123,12 +95,37 @@ export default function Home() {
             )}
         </div>
         <div className='text-2xl text-bold mt-4'>トーク済み</div>
-        <div className='w-full flex flex-row flex-wrap justify-items-center'>
+        <div className='w-full pb-40 flex flex-row flex-wrap justify-items-center'>
           {panelData.length !== 0 &&
             panelData.map((item) => item.comp && <Panel data={item} />)}
         </div>
-        <div className='mt-8 text-xs text-right'>
-          ダブルクリック⇒トーク状況切替
+        <div className='fixed bottom-0 left-0 mt-8 px-3 py-1 flex flex-row w-full h-auto bg-white'>
+          <textarea
+            className='resize-none border rounded-lg w-full h-full p-1 h-20 focus:h-40'
+            value={newPanelName}
+            tabindex={1}
+            onChange={(e) => {
+              setNewPanelName(e.target.value);
+            }}
+            cols={50}
+            rows={2}
+          />
+          <button
+            className='-ml-10 text-gray-400 border-none bg-while focus:outline-none focus:shadow-outline'
+            tabindex={2}
+            onClick={(e) => {
+              if (newPanelName) {
+                supabase
+                  .from('panels')
+                  .insert([{ name: newPanelName }])
+                  .then(() => {
+                    setNewPanelName('');
+                  });
+              }
+            }}
+          >
+            <FontAwesomeIcon icon={faPaperPlane} className='w-6 h-6' />
+          </button>
         </div>
       </main>
     </div>
