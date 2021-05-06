@@ -99,9 +99,9 @@ export default function Home() {
           {panelData.length !== 0 &&
             panelData.map((item) => item.comp && <Panel data={item} />)}
         </div>
-        <div className='fixed bottom-0 left-0 mt-8 px-3 py-1 flex flex-row w-full h-auto bg-white'>
+        <div className='fixed bottom-0 left-0 z-10 mt-8 px-3 py-1 flex flex-row w-full h-auto bg-white'>
           <textarea
-            className='resize-none border rounded-lg w-full h-full p-1 h-20 focus:h-40'
+            className='resize-none z-20 border rounded-lg w-full h-full p-1 h-20 focus:h-40'
             value={newPanelName}
             tabindex={1}
             onChange={(e) => {
@@ -111,7 +111,7 @@ export default function Home() {
             rows={2}
           />
           <button
-            className='-ml-10 text-gray-400 border-none bg-while focus:outline-none focus:shadow-outline'
+            className='-ml-10 z-50 text-gray-400 border-none bg-while focus:outline-none focus:shadow-outline'
             tabindex={2}
             onClick={(e) => {
               if (newPanelName) {
