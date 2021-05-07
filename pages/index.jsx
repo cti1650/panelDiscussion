@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle,faTimes,faEdit,faFlag,faPlus,faTrash,faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { Panel } from '../src/components/panel/default';
+import { DammyPanel } from '../src/components/panel/dammy';
 
 import { createClient } from '@supabase/supabase-js';
 
@@ -66,7 +67,7 @@ export default function Home() {
       <main className='container max-w-4xl px-8 sm:mx-auto flex flex-col'>
         <div className='text-2xl text-bold mt-4'>トーク中</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
-          {panelData.length !== 0 &&
+          {panelData.length === 0 ? (<DammyPanel />) :
             panelData.map(
               (item) =>
                 !item.comp &&
@@ -81,7 +82,7 @@ export default function Home() {
         </div>
         <div className='text-2xl text-bold mt-4'>テーマ</div>
         <div className='w-full flex flex-row flex-wrap justify-items-center'>
-          {panelData.length !== 0 &&
+          {panelData.length === 0 ? (<DammyPanel />) :
             panelData.map(
               (item) =>
                 !item.comp &&
@@ -96,7 +97,7 @@ export default function Home() {
         </div>
         <div className='text-2xl text-bold mt-4'>トーク済み</div>
         <div className='w-full pb-40 flex flex-row flex-wrap justify-items-center'>
-          {panelData.length !== 0 &&
+          {panelData.length === 0 ? (<DammyPanel />) :
             panelData.map((item) => item.comp && <Panel data={item} />)}
         </div>
         <div className='fixed bottom-0 left-0 z-10 mt-8 px-3 py-1 flex flex-row w-full h-auto bg-white'>
