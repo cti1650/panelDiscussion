@@ -22,9 +22,6 @@ export default function Home() {
   const [panelData, setPanelData] = useState([]);
   const [newPanelName, setNewPanelName] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const handleChildonChange = (e) => {
-    setPanelData([...panelData]);
-  };
   useEffect(async ()=>{
     let DB = await updateDB();
     setPanelData(DB.data);
@@ -80,7 +77,6 @@ export default function Home() {
                   <Panel
                     data={item}
                     edit={editMode}
-                    onChange={handleChildonChange}
                   />
                 )
             )}
@@ -95,7 +91,6 @@ export default function Home() {
                   <Panel
                     data={item}
                     edit={editMode}
-                    onChange={handleChildonChange}
                   />
                 )
             )}
