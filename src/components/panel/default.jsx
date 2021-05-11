@@ -27,7 +27,6 @@ export function Panel(props) {
           .update({ comp: !data.comp, talking:false })
           .match({ id: data.id }).then(()=>{
             console.log('update id:' + data.id);
-            onChange && onChange(e);
         });
       }}>
         {data.name}
@@ -40,7 +39,6 @@ export function Panel(props) {
                     .delete()
                     .match({ id: data.id }).then(()=>{
                       console.log('delete id:' + data.id);
-                      onChange && onChange(e);
                     });
                   }
               }}>
@@ -71,7 +69,6 @@ export function Panel(props) {
                     .update({ talking: true })
                     .match({ id: data.id }).then(()=>{
                       console.log('talking id:' + data.id);
-                      onChange && onChange(e);
                     });
                 }
               });
