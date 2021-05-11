@@ -12,29 +12,31 @@ const supabaseKey =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTYyMDE3NTM1NywiZXhwIjoxOTM1NzUxMzU3fQ.RieDtePOmJHaj5mYxfuvZllLopv02JCbBVEX-XGyYg8';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+const updateDB = async () =>{
+  return await supabase
+      .from('panels')
+      .select('*');
+}
+
 export default function Home() {
   const [panelData, setPanelData] = useState([]);
   const [newPanelName, setNewPanelName] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const [TimeKeeper,setTimeKeeper] = useState(null);
   const handleChildonChange = (e) => {
     setPanelData([...panelData]);
   };
-  let t;
-  useEffect(() => {
-    TimeKeeper && clearTimeout(TimeKeeper);
-    setTimeKeeper(setTimeout(function () {
-      supabase
-        .from('panels')
-        .select('*')
-        .then((doc) => {
-          if (panelData !== doc.data) {
-            setPanelData(doc.data);
-            console.log('update' + new Date().toString());
-          }
-        });
-    }, 4000));
-  }, [panelData]);
+  useEffect(async ()=>{
+    let DB = await updateDB();
+    setPanelData(DB.data);
+    supabase
+      .from('panels')
+      .on('*',async ()=>{
+        let DB = await updateDB();
+        setPanelData(DB.data);
+      })
+      .subscribe();
+  },[]);
+  
   return (
     <div className='w-full'>
       <Head>
@@ -104,7 +106,7 @@ export default function Home() {
           <textarea
             className='resize-none z-20 border rounded-lg w-full h-full p-1 h-20 focus:h-40'
             value={newPanelName}
-            tabindex={1}
+            tabIndex={1}
             onChange={(e) => {
               setNewPanelName(e.target.value);
             }}
@@ -113,7 +115,7 @@ export default function Home() {
           />
           <button
             className='-ml-10 z-50 text-gray-400 border-none bg-while focus:outline-none focus:shadow-outline'
-            tabindex={2}
+            tabIndex={2}
             onClick={(e) => {
               if (newPanelName) {
                 supabase
