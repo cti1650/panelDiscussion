@@ -28,6 +28,9 @@ export default function Home() {
   useEffect(async ()=>{
     let DB = await updateDB();
     setPanelData(DB.data);
+  },[]);
+
+  useEffect(()=>{
     supabase
       .from('panels')
       .on('*',async ()=>{
